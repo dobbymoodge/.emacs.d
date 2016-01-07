@@ -261,11 +261,12 @@ If REGEXP is non-nil, treat STRING as a regular expression."
 ;; (setq ido-use-faces nil)
 
 ;; org-mode
+(require 'org-bullets)
 (setq org-log-done 'time)
 (setq org-directory "~/org/")
 (setq org-agenda-files '("~/org/planner.org"))
 (setq org-default-notes-file "~/org/refile.org")
-(setq initial-buffer-choice "~/org/notes.org")
+;;(setq initial-buffer-choice "~/org/notes.org")
 (setq org-todo-keywords '("TODO(t)" "NEXT(n)" "SOMEDAY(s)" "WAITING(w)" "DONE(d)"))
 (setq org-todo-keyword-faces
       '(("TODO" :foreground "red" :weight bold)
@@ -347,6 +348,7 @@ If REGEXP is non-nil, treat STRING as a regular expression."
 
 (defun my-org-mode-hook ()
   ;;(org-indent-mode 1)
+  (org-bullets-mode 1)
   )
 
 (defun my-python-mode-hook ()

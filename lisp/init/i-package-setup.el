@@ -25,31 +25,34 @@
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives
+             '("marmalade" . "http://marmalade-repo.org/packages/") t)
 
 ;; install packages
 (setq packages '(
-                 ctags
-                 go-mode
-                 popwin
-                 projectile
-                 flx-ido
-                 flycheck
-                 guide-key
+                 ace-jump-mode
+                 ace-window
                  ag
-                 go-eldoc
                  company
                  company-go
-                 smex
-                 magit
-                 helm
-                 elpy
-                 php-mode
-                 ace-jump-mode
                  deft
-                 ace-window
-                 nm
-                 web-mode
+                 elpy
                  exec-path-from-shell
+                 flx-ido
+                 flycheck
+                 go-eldoc
+                 go-mode
+                 guide-key
+                 helm
+                 magit
+                 nm
+                 org-bullets
+                 php-mode
+                 popwin
+                 projectile
+                 smex
+                 web-mode
+                 ctags
                  ))
 
 ;; hotfix

@@ -24,7 +24,7 @@
 
 ;; For chromebook
 ;;(if (equal system-configuration "armv7l-unknown-linux-gnueabihf")
-(set-face-attribute 'default nil :height 160)
+;; (set-face-attribute 'default nil :height 160)
 
 ;; Frrom githujb.com/lewang/flx
 (setq gc-cons-threshold 20000000)
@@ -69,7 +69,7 @@
 (require 'i-utils)
 (require 'i-mode-config)
 (require 'i-keys)
-(require 'i-custom)
-
+;;(require 'i-custom)
+(load custom-file)
 ;;; init.el ends here
 (put 'downcase-region 'disabled nil)

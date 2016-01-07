@@ -132,7 +132,7 @@
 (global-set-key (kbd "C-c C-j") 'imenu)
 
 ;; make C-x b and C-x C-b the same
-(global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
+;; (global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
 
 ;; exchange zap-to-char for zap-up-to-char
 (global-set-key (kbd "M-z") 'zap-up-to-char)
@@ -154,6 +154,49 @@
 (global-set-key (kbd "C-<left>") 'shrink-window-horizontally)
 (global-set-key (kbd "C-<up>") 'enlarge-window)
 (global-set-key (kbd "C-<down>") 'shrink-window-if-larger-than-buffer)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; imported from old jwl-keybindings.el: ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; zoom font size
+(global-set-key (kbd "s-=") '(lambda()
+                               (interactive)
+                               (text-scale-increase 1)))
+(global-set-key (kbd "s-0") '(lambda()
+                               (interactive)
+                               (text-scale-increase 0)))
+(global-set-key (kbd "s--") '(lambda()
+                               (interactive)
+                               (text-scale-decrease 1)))
+
+;; switching frames
+(global-set-key (kbd "C-x l")
+		'(lambda()
+		   (interactive)
+		   (other-window -1)))
+
+;; use ibuffer instead of switch-buffer
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+
+;; more buffer tricks
+(global-set-key [?\s- ] 'next-buffer)
+(global-set-key [s-return] 'previous-buffer)
+
+;; Fancy bindings under M-'
+(global-unset-key (kbd "M-\'"))
+(global-set-key (kbd "M-\' f") 'toggle-selective-display)
+(global-set-key (kbd "M-\' a") 'align-current)
+(global-set-key (kbd "M-\' A") 'align)
+(global-set-key (kbd "M-\' m") 'magit-status)
+
+;; Fancy bindings under s-x
+(global-set-key (kbd "s-x r") 'ruby-mode)
+(global-set-key (kbd "s-x m") 'menu-bar-mode)
+(global-set-key (kbd "s-x s-x") 'visual-line-mode)
+
+;; emacs server
+(global-set-key [f1] 'server-start)
 
 (provide 'i-keys)
 ;;; i-keys.el ends here
