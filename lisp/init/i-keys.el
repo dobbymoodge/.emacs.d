@@ -102,7 +102,7 @@
 
 (global-set-key (kbd "C-c C-SPC") 'ace-jump-mode)
 
-(global-set-key (kbd "M-/") 'hippie-expand)
+; (global-set-key (kbd "M-/") 'hippie-expand)
 
 (global-set-key (kbd "C-x C-m") 'eshell)
 (global-set-key (kbd "C-x m") 'eshell)
@@ -170,6 +170,9 @@
                                (interactive)
                                (text-scale-decrease 1)))
 
+;; custom save-but-don't-kill function
+(global-set-key [?\M-k] 'avi-kill-line-save)
+
 ;; switching frames
 (global-set-key (kbd "C-x l")
 		'(lambda()
@@ -182,6 +185,7 @@
 ;; more buffer tricks
 (global-set-key [?\s- ] 'next-buffer)
 (global-set-key [s-return] 'previous-buffer)
+(global-set-key (kbd "s-b") 'mode-line-other-buffer)
 
 ;; Fancy bindings under M-'
 (global-unset-key (kbd "M-\'"))

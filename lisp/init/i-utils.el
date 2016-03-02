@@ -122,6 +122,18 @@ user."
   (interactive)
   (list-matching-lines "todo\\|fixme\\|bug\\|kludge"))
 
+(defun avi-kill-line-save (&optional arg)
+  "Copy to the kill ring from point to the end of the current line.
+   With a prefix argument, copy that many lines from point.  Negative
+   arguments copy lines backward.  With zero argument, copies the text
+   before point to the beginning of the current line."
+  (interactive "p")
+  (save-excursion
+	(copy-region-as-kill
+	 (point)
+	 (progn (if arg (forward-visible-line arg)
+			  (end-of-visible-line))
+			(point)))))
 
 (provide 'i-utils)
 ;;; i-utils.el ends here

@@ -40,6 +40,7 @@
                  exec-path-from-shell
                  flx-ido
                  flycheck
+                 git-gutter
                  go-eldoc
                  go-mode
                  guide-key
