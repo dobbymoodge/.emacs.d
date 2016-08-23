@@ -26,6 +26,12 @@
 ;;(if (equal system-configuration "armv7l-unknown-linux-gnueabihf")
 ;; (set-face-attribute 'default nil :height 160)
 
+;; Set frame title to something searchable
+(setq frame-title-format
+  '("emacs: "(:eval (if (buffer-file-name)
+                (abbreviate-file-name (buffer-file-name))
+                  "%b"))))
+
 ;; Frrom githujb.com/lewang/flx
 (setq gc-cons-threshold 20000000)
 
@@ -73,3 +79,4 @@
 (load custom-file)
 ;;; init.el ends here
 (put 'downcase-region 'disabled nil)
+(put 'narrow-to-region 'disabled nil)

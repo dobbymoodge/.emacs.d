@@ -200,9 +200,9 @@ If REGEXP is non-nil, treat STRING as a regular expression."
 (popwin-mode 1)
 
 ;; go-mode.el
-(require 'go-autocomplete)
-(load-file "/home/jolamb/v3OpenShift/go/src/golang.org/x/tools/cmd/oracle/oracle.el")
-;; (require 'company-go)
+;;(require 'go-autocomplete)
+;;(load-file "/home/jolamb/v3OpenShift/go/src/golang.org/x/tools/cmd/oracle/oracle.el")
+(require 'company-go)
 
 ;; go-mode.el patch start
 (defun govet-before-save ()
@@ -224,13 +224,13 @@ If REGEXP is non-nil, treat STRING as a regular expression."
 (add-to-list 'load-path (concat (getenv "GOPATH") "/src/github.com/dougm/goflymake"))
 
 ;; flycheck-mode
-(add-hook 'after-init-hook #'global-flycheck-mode)
+;; (add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;; go-eldoc
 (require 'go-eldoc)
 
 ;; company-mode
-(setq company-idle-delay nil)
+;;(setq company-idle-delay nil)
 
 ;; smex
 (smex-initialize)
@@ -334,6 +334,13 @@ If REGEXP is non-nil, treat STRING as a regular expression."
 ;; js-mode
 (setq js-indent-level 4)
 
+;; ruby-mode
+;; (eval-after-load 'company
+;;   '(push 'company-robe company-backends))
+(when (require 'smartparens nil 'noerror)
+  (require 'smartparens-ruby))
+(add-hook 'ruby-mode-hook #'smartparens-mode)
+
 ;; Set up hooks.
 
 (defun my-prog-mode-hook ()
@@ -374,9 +381,16 @@ If REGEXP is non-nil, treat STRING as a regular expression."
 
 (defun my-go-mode-hook ()
   (local-set-key (kbd "M-.") 'godef-jump)
-  (auto-complete-mode 1))
-  ;; (set (make-local-variable 'company-backends) '(company-go))
-  ;; (company-mode 1))
+  ;;(auto-complete-mode 1))
+  (set (make-local-variable 'company-backends) '(company-go))
+  (company-mode 1)
+  )
+
+(defun my-ruby-mode-hook ()
+  ;;(set (make-local-variable 'company-backends) '(company-robe))
+  ;; (robe-mode 1)
+  ;;(company-mode 1)
+  )
 
 (defun my-php-mode-hook ()
   (setq c-basic-offset 4)
@@ -395,6 +409,7 @@ If REGEXP is non-nil, treat STRING as a regular expression."
 (add-hook 'javascript-mode-hook 'my-javascript-mode-hook)
 (add-hook 'text-mode-hook 'visual-line-mode)
 (add-hook 'php-mode-hook 'my-php-mode-hook)
+(add-hook 'ruby-mode-hook 'my-ruby-mode-hook)
 
 (provide 'i-mode-config)
 ;;; i-mode-config.el ends here
