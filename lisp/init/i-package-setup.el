@@ -33,27 +33,37 @@
                  ace-jump-mode
                  ace-window
                  ag
+                 ample-theme
                  company
                  company-go
+                 ctags
                  deft
                  elpy
                  exec-path-from-shell
                  flx-ido
                  flycheck
+                 gist
                  git-gutter
+                 git-link
                  go-eldoc
                  go-mode
                  guide-key
                  helm
+                 iedit
                  magit
+                 markdown-mode
+                 markdown-toc
                  nm
                  org-bullets
                  php-mode
                  popwin
                  projectile
+                 ruby-block
+                 smartparens
                  smex
+                 w3m
                  web-mode
-                 ctags
+                 wgrep
                  ))
 
 ;; hotfix
