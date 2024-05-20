@@ -24,7 +24,7 @@
 ;; helm bindings
 (global-set-key (kbd "C-c h") 'helm-command-prefix)
 (global-unset-key (kbd "C-x c"))
-(global-set-key (kbd "C-x f") 'helm-find-files)
+;; (global-set-key (kbd "C-x f") 'helm-find-files)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-c h o") 'helm-occur)
 (global-set-key (kbd "C-h SPC") 'helm-all-mark-rings)
@@ -51,7 +51,6 @@
 (global-set-key (kbd "C-h C-f") 'find-function)
 
 (global-set-key (kbd "C-x o") 'other-window)
-(global-set-key (kbd "C-c o") 'ace-window)
 
 (global-set-key (kbd "C-x C-1") 'delete-other-windows)
 (global-set-key (kbd "C-x C-2") 'split-window-below)
@@ -72,7 +71,7 @@
 ;; so fat
 (global-set-key (kbd "C-c x C-o") 'other-frame)
 (global-set-key (kbd "C-c x o") 'other-frame)
-(global-set-key (kbd "C-x f") 'ido-find-file)
+;; (global-set-key (kbd "C-x f") 'ido-find-file)
 
 ;; fat-finger
 (global-set-key (kbd "C-x C-r") 'eval-last-sexp)
@@ -97,10 +96,6 @@
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 ;; This is your old M-x.
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
-
-(global-set-key (kbd "<f8>") 'deft)
-
-(global-set-key (kbd "C-c C-SPC") 'ace-jump-mode)
 
 ; (global-set-key (kbd "M-/") 'hippie-expand)
 
@@ -130,9 +125,7 @@
 (global-set-key (kbd "M-m") 'move-beginning-of-line)
 
 (global-set-key (kbd "C-c C-j") 'imenu)
-
-;; make C-x b and C-x C-b the same
-;; (global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
+(global-set-key (kbd "s-j") 'imenu)
 
 ;; exchange zap-to-char for zap-up-to-char
 (global-set-key (kbd "M-z") 'zap-up-to-char)
@@ -199,8 +192,15 @@
 (global-set-key (kbd "s-x m") 'menu-bar-mode)
 (global-set-key (kbd "s-x s-x") 'visual-line-mode)
 
+;; global overrides
+(global-set-key (kbd "M-g") 'goto-line)
+(global-set-key (kbd "C-x M-;") 'comment-line)
+
 ;; emacs server
 (global-set-key [f1] 'server-start)
+
+;; projectile
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
 (provide 'i-keys)
 ;;; i-keys.el ends here

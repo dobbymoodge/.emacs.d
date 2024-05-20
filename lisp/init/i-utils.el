@@ -122,6 +122,23 @@ user."
   (interactive)
   (list-matching-lines "todo\\|fixme\\|bug\\|kludge"))
 
+(defun jwl-set-default-ws ()
+  "Restore whitespace-style defaults"
+  (interactive)
+  (setq whitespace-style
+        '(face tabs spaces trailing lines space-before-tab newline
+         indentation empty space-after-tab space-mark tab-mark
+         newline-mark))
+  (whitespace-mode 0)
+  (whitespace-mode 1))
+
+(defun jwl-set-minimal-ws ()
+  "Set whitespace-style to just show trailing whitespace"
+  (interactive)
+  (setq whitespace-style '(face trailing))
+  (whitespace-mode 0)
+  (whitespace-mode 1))
+
 (defun avi-kill-line-save (&optional arg)
   "Copy to the kill ring from point to the end of the current line.
    With a prefix argument, copy that many lines from point.  Negative
@@ -134,6 +151,25 @@ user."
 	 (progn (if arg (forward-visible-line arg)
 			  (end-of-visible-line))
 			(point)))))
+
+(defun cmp-date-property (prop)
+  "Compare two `org-mode' agenda entries, `A' and `B', by some date property.
+
+If a is before b, return -1. If a is after b, return 1. If they
+are equal return t."
+  (lexical-let ((prop prop))
+  #'(lambda (a b)
+
+    (let* ((a-pos (get-text-property 0 'org-marker a))
+           (b-pos (get-text-property 0 'org-marker b))
+           (a-date (or (org-entry-get a-pos prop)
+                       (format "<%s>" (org-read-date t nil "now"))))
+           (b-date (or (org-entry-get b-pos prop)
+                       (format "<%s>" (org-read-date t nil "now"))))
+           (cmp (compare-strings a-date nil nil b-date nil nil))
+           )
+      (if (eq cmp t) nil (signum cmp))
+      ))))
 
 (provide 'i-utils)
 ;;; i-utils.el ends here

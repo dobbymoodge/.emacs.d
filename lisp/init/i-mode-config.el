@@ -13,16 +13,26 @@
 (setq-default indent-tabs-mode nil
               major-mode 'text-mode)
 
+;; Enable which-key-mode https://github.com/justbur/emacs-which-key
+(require 'which-key)
+(which-key-mode)
+
 ;; elpy
-(elpy-enable)
+;; (elpy-enable)
+
+;; --__--__--__--__   ________
+;; --__--__--__--__  |     |\_L/|
+;; --__--__--__--__"\     ( =^_^=)
+;;                   `m-.---m-  m
+(require 'nyan-mode)
+(nyan-mode 1)
 
 ;; helm
-
 (require 'helm)
-(require 'helm-config)
+;; (require 'helm-config)
 (helm-mode 1)
-(when (executable-find "curl")
-  (setq helm-google-suggest-use-curl-p t))
+;; (when (executable-find "curl")
+;;   (setq helm-google-suggest-use-curl-p t))
 
 (setq helm-split-window-in-side-p t
       helm-move-to-line-cycle-in-source t
@@ -45,10 +55,23 @@
 
 ;; web-mode
 ;; SAMER: Lazy load web-mode?
-(setq web-mode-markup-indent-offset 2)
-(setq web-mode-css-indent-offset 2)
-(setq web-mode-code-indent-offset 2)
-
+;; (require 'web-mode)
+;; (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.jinja?\\'" . web-mode))
+;; (add-to-list 'web-mode-engine-file-regexps '("django" . "\\.jinja.html?\\'"))
+;; (defun my-web-mode-hook ()
+;;   "Hooks for web-mode"
+;;   (setq web-mode-markup-indent-offset 2)
+;;   (setq web-mode-css-indent-offset 2)
+;;   (setq web-mode-code-indent-offset 2)
+;; )
 ;; mail
 
 ;; not working
@@ -58,7 +81,7 @@
 ;;       smtpmail-smtp-service 587)
 
 ;; nm (nevermore email client)
-(require 'nm-company)
+;; (require 'nm-company)
 
 ;; fill
 ;;(setq fill-column 80)
@@ -108,192 +131,51 @@
 ;; overwrite-mode
 (fmakunbound 'overwrite-mode)
 
-;; ag.el patch start
-(require 'ag)
-(defun ag/dwim-at-point () "") ;; turn off this anti-feature.
-(defcustom ag-ignore-list nil
-  "A list of patterns to ignore when searching."
-  :type '(repeat (string))
-  :group 'ag)
-(defun ag/format-ignore (ignore)
-  "Prepend '--ignore' to every item in IGNORE."
-  (let ((result nil))
-    (while ignore
-      (setq result (append `("--ignore" ,(car ignore)) result))
-      (setq ignore (cdr ignore)))
-    result))
-
-(require 'cl)
-(defun* ag/search (string directory &key (regexp nil) (file-regex nil) (file-type nil))
-  "Run ag searching for the STRING given in DIRECTORY.
-If REGEXP is non-nil, treat STRING as a regular expression."
-  (let ((default-directory (file-name-as-directory directory))
-        (arguments ag-arguments)
-        (shell-command-switch "-c"))
-    (unless regexp
-        (setq arguments (cons "--literal" arguments)))
-    (if ag-highlight-search
-        (setq arguments (append '("--color" "--color-match" "30;43") arguments))
-      (setq arguments (append '("--nocolor") arguments)))
-    (when (char-or-string-p file-regex)
-      (setq arguments (append `("--file-search-regex" ,file-regex) arguments)))
-    (when file-type
-      (setq arguments (cons file-type arguments)))
-    (when ag-ignore-list
-      (setq arguments (append (ag/format-ignore ag-ignore-list) arguments)))
-    (unless (file-exists-p default-directory)
-      (error "No such directory %s" default-directory))
-    (let ((command-string
-           (mapconcat 'shell-quote-argument
-                      (append (list ag-executable) arguments (list string "."))
-                      " ")))
-      ;; If we're called with a prefix, let the user modify the command before
-      ;; running it. Typically this means they want to pass additional arguments.
-      (when current-prefix-arg
-        ;; Make a space in the command-string for the user to enter more arguments.
-        (setq command-string (ag/replace-first command-string " -- " "  -- "))
-        ;; Prompt for the command.
-        (let ((adjusted-point (- (length command-string) (length string) 5)))
-          (setq command-string
-                (read-from-minibuffer "ag command: "
-                                      (cons command-string adjusted-point)))))
-      ;; Call ag.
-      (compilation-start
-       command-string
-       'grep-mode
-       `(lambda (mode-name) ,(ag/buffer-name string directory regexp))))))
-;; ag.el patch end
-
-;; ag
-(setq ag-reuse-buffers t)
-(setq ag-ignore-list '("Godeps" "assets" "node_modules" "bower_components" "testdata"))
-
 ;; scroll
 (setq scroll-preserve-screen-position t)
 
 ;; git-gutter
-(global-git-gutter-mode +1)
+;;(global-git-gutter-mode +1)
 
 ;; projectile-mode
-(projectile-global-mode)
-(defun projectile-symbol-at-point () "") ;; turn off this anti-feature.
-(setq projectile-find-dir-includes-top-level t)
-(setq projectile-switch-project-action (lambda () (dired (projectile-project-root))))
+(require 'projectile)
+(projectile-mode +1)
+;; (defun projectile-symbol-at-point () "") ;; turn off this anti-feature.
+;; (setq projectile-find-dir-includes-top-level t)
+;; (setq projectile-switch-project-action (lambda () (dired (projectile-project-root))))
 
 ;; turn off bell
 (setq visible-bell nil)
 (setq ring-bell-function 'ignore)
 
-;; sourcegraph-mode
-;;(require 'sourcegraph nil 'noerror)
-
-;; guide-key
-(setq guide-key/guide-key-sequence '("C-c p" "C-x r"))
-(guide-key-mode 1)
-(setq guide-key/recursive-key-sequence-flag t)
-
-;; ag
-(setq ag-highlight-search t)
-
-;; popwin-mode
-(require 'popwin)
-(popwin-mode 1)
-
-;; go-mode.el
-;;(require 'go-autocomplete)
-;;(load-file "/home/jolamb/v3OpenShift/go/src/golang.org/x/tools/cmd/oracle/oracle.el")
-(require 'company-go)
-
-;; go-mode.el patch start
-(defun govet-before-save ()
-  "Add this to .emacs to run gofmt on the current buffer when saving:
- (add-hook 'before-save-hook 'govet-before-save)."
-  ;; (interactive)
-  ;; (when (eq major-mode 'go-mode) (govet)))
-  nil)
-
-(defun govet ()
-  (interactive)
-  (compile (concat "go vet " (buffer-file-name))))
-;; go-mode.el patch end
-;; go-mode
-;; (setq gofmt-command "goimports")
-(setq gofmt-command "gofmt")
-(add-hook 'before-save-hook 'govet-before-save)
-(add-hook 'before-save-hook 'gofmt-before-save)
-(add-to-list 'load-path (concat (getenv "GOPATH") "/src/github.com/dougm/goflymake"))
-
-;; flycheck-mode
-;; (add-hook 'after-init-hook #'global-flycheck-mode)
-
-;; go-eldoc
-(require 'go-eldoc)
-
-;; company-mode
-;;(setq company-idle-delay nil)
-
-;; smex
-(smex-initialize)
-
 ;; save-place
 (require 'saveplace)
 (setq-default save-place t)
 
-;; ido-mode, flx-ido
-;; (require 'flx-ido)
-;; ;; By default, ido does not have flex matching enabled.
-;; (setq ido-enable-flex-matching t
-;;       ido-everywhere t
-;;       ;; By default, ido-mode will change your directory if you type
-;;       ;; the name of a file that doesn't exist. Set
-;;       ;; ido-auto-merge-work-directories-length to a negative number
-;;       ;; to disable that behavior.
-;;       ido-auto-merge-work-directories-length -1
-;;       ;; By default, ido-mode will ask you if you want to create a new
-;;       ;; buffer when you type the name of a buffer that doesn't exist.
-;;       ;; Set ido-create-new-buffer to always to always create a new
-;;       ;; buffer.
-;;       ido-create-new-buffer 'always
-;;       ;; By default, ido-mode will open a file in the selected window
-;;       ;; *unless* that file is open in another frame, in which case it
-;;       ;; will simply raise that frame. Set ido-default-file-method to
-;;       ;; 'selected-window to *always* open a file in the selected
-;;       ;; window.
-;;       ido-default-file-method 'selected-window
-;;       ;; ido-default-buffer-method has the same behavior as
-;;       ;; ido-default-file-method by default.
-;;       ido-default-buffer-method 'selected-window
-;;       ido-max-directory-size 100000)
-;; (ido-mode 1) ;; TODO: (ido-mode 'both) ?
-;; (flx-ido-mode 1)
-;; (setq ido-enable-flex-matching t)
-;; (setq ido-use-faces nil)
-
 ;; org-mode
-(require 'org-bullets)
-(setq org-log-done 'time)
-(setq org-directory "~/org/")
-(setq org-agenda-files '("~/org/planner.org"))
-(setq org-default-notes-file "~/org/refile.org")
+;; (require 'org-bullets)
+;; (setq org-log-done 'time)
+;; (setq org-directory "~/org/")
+;; (setq org-agenda-files '("~/org/planner.org"))
+;; (setq org-default-notes-file "~/org/refile.org")
 ;;(setq initial-buffer-choice "~/org/notes.org")
-(setq org-todo-keywords '("TODO(t)" "NEXT(n)" "SOMEDAY(s)" "WAITING(w)" "DONE(d)"))
-(setq org-todo-keyword-faces
-      '(("TODO" :foreground "red" :weight bold)
-        ("NEXT" :foreground "blue" :weight bold)
-        ("DONE" :foreground "forest green" :weight bold)
-        ("WAITING" :foreground "orange" :weight bold)
-        ("SOMEDAY" :foreground "magenta" :weight bold)))
-(setq org-refile-targets '((org-agenda-files . (:maxlevel . 3))
-                           ("~/org/notes.org" . (:maxlevel . 3))))
-(setq org-completion-use-ido t)
+;; (setq org-todo-keywords '("TODO(t)" "NEXT(n)" "SOMEDAY(s)" "WAITING(w)" "DONE(d)"))
+;; (setq org-todo-keyword-faces
+;;       '(("TODO" :foreground "red" :weight bold)
+;;         ("NEXT" :foreground "blue" :weight bold)
+;;         ("DONE" :foreground "forest green" :weight bold)
+;;         ("WAITING" :foreground "orange" :weight bold)
+;;         ("SOMEDAY" :foreground "magenta" :weight bold)))
+;; (setq org-refile-targets '((org-agenda-files . (:maxlevel . 3))
+;;                            ("~/org/notes.org" . (:maxlevel . 3))))
 
 ;; tasklist
-(require 'tasklist nil t) ;; no error
-(setq tasklist-directory-name (expand-file-name "tasks" org-directory))
-(setq tasklist-auto-insert"* tasks
-** do
-** small
-** sessions")
+;; (require 'tasklist nil t) ;; no error
+;; (setq tasklist-directory-name (expand-file-name "tasks" org-directory))
+;; (setq tasklist-auto-insert"* tasks
+;; ** do
+;; ** small
+;; ** sessions")
 
 ;; magit
 (setq magit-last-seen-setup-instructions "1.4.0")
@@ -312,6 +194,10 @@ If REGEXP is non-nil, treat STRING as a regular expression."
 ;; ctags
 (require 'ctags)
 (setq tags-revert-without-query t)
+
+;; iedit
+(require 'iedit)
+(require 'wgrep)
 
 ;; misc config
 (fmakunbound 'suspend-frame)
@@ -335,11 +221,54 @@ If REGEXP is non-nil, treat STRING as a regular expression."
 (setq js-indent-level 4)
 
 ;; ruby-mode
-;; (eval-after-load 'company
-;;   '(push 'company-robe company-backends))
-(when (require 'smartparens nil 'noerror)
-  (require 'smartparens-ruby))
-(add-hook 'ruby-mode-hook #'smartparens-mode)
+(eval-after-load 'company
+  '(push 'company-robe company-backends))
+;; (when (require 'smartparens nil 'noerror)
+;;   (require 'smartparens-ruby))
+;; (add-hook 'ruby-mode-hook #'smartparens-mode)
+(eval-after-load "ruby-mode"
+  '(progn
+     (defun ruby-imenu-create-index-in-block (prefix beg end)
+       "Create an imenu index of methods inside a block."
+       (let ((index-alist '()) (case-fold-search nil)
+             name next pos decl sing)
+         (goto-char beg)
+         (while (re-search-forward "^\\s *\\(\\(class\\s +\\|\\(class\\s *<<\\s *\\)\\|module\\s +\\)\\([^\(<\n ]+\\)\\|\\(def\\|alias\\|command\\)\\s +\\([^\(\n ]+\\)\\)" end t)
+           (setq sing (match-beginning 3))
+           (setq decl (match-string 5))
+           (setq next (match-end 0))
+           (setq name (or (match-string 4) (match-string 6)))
+           (setq pos (match-beginning 0))
+           (cond
+            ((string= "command" decl)
+             (setq name (concat decl name))
+             (if prefix (setq name (concat prefix name)))
+             (push (cons name pos) index-alist))
+            ((string= "alias" decl)
+             (if prefix (setq name (concat prefix name)))
+             (push (cons name pos) index-alist))
+            ((string= "def" decl)
+             (if prefix
+                 (setq name
+                       (cond
+                        ((string-match "^self\." name)
+                         (concat (substring prefix 0 -1) (substring name 4)))
+                        (t (concat prefix name)))))
+             (push (cons name pos) index-alist)
+             (ruby-accurate-end-of-block end))
+            (t
+             (if (string= "self" name)
+                 (if prefix (setq name (substring prefix 0 -1)))
+               (if prefix (setq name (concat (substring prefix 0 -1) "::" name)))
+               (push (cons name pos) index-alist))
+             (ruby-accurate-end-of-block end)
+             (setq beg (point))
+             (setq index-alist
+                   (nconc (ruby-imenu-create-index-in-block
+                           (concat name (if sing "." "#"))
+                           next beg) index-alist))
+             (goto-char beg))))
+         index-alist))))
 
 ;; Set up hooks.
 
@@ -379,22 +308,29 @@ If REGEXP is non-nil, treat STRING as a regular expression."
   ;(enable-paredit-mode))
   )
 
-(defun my-go-mode-hook ()
-  (local-set-key (kbd "M-.") 'godef-jump)
-  ;;(auto-complete-mode 1))
-  (set (make-local-variable 'company-backends) '(company-go))
-  (company-mode 1)
-  )
+;; (defun my-go-mode-hook ()
+;;   (local-set-key (kbd "M-.") 'godef-jump)
+;;   ;;(auto-complete-mode 1))
+;;   (set (make-local-variable 'company-backends) '(company-go))
+;;   (company-mode 1)
+;;   )
 
 (defun my-ruby-mode-hook ()
-  ;;(set (make-local-variable 'company-backends) '(company-robe))
-  ;; (robe-mode 1)
-  ;;(company-mode 1)
+  (set (make-local-variable 'company-backends) '(company-robe))
+  (robe-mode 1)
+  (company-mode 1)
   )
 
 (defun my-php-mode-hook ()
   (setq c-basic-offset 4)
   (php-enable-pear-coding-style))
+
+(defun my-markdown-mode-hook ()
+       (auto-fill-mode t)
+       (set-fill-column 120))
+
+(defun my-sh-mode-hook ()
+  (set-fill-column 120))
 
 (add-hook 'prog-mode-hook 'my-prog-mode-hook)
 (add-hook 'c-mode-hook 'my-c-mode-hook)
@@ -404,12 +340,14 @@ If REGEXP is non-nil, treat STRING as a regular expression."
 (add-hook 'python-mode-hook 'my-python-mode-hook)
 (add-hook 'scheme-mode-hook 'my-scheme-mode-hook)
 (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-hook)
-(add-hook 'go-mode-hook 'my-go-mode-hook)
-(add-hook 'go-mode-hook 'go-eldoc-setup)
+;; (add-hook 'go-mode-hook 'my-go-mode-hook)
+;; (add-hook 'go-mode-hook 'go-eldoc-setup)
 (add-hook 'javascript-mode-hook 'my-javascript-mode-hook)
 (add-hook 'text-mode-hook 'visual-line-mode)
 (add-hook 'php-mode-hook 'my-php-mode-hook)
 (add-hook 'ruby-mode-hook 'my-ruby-mode-hook)
-
+(add-hook 'web-mode-hook 'my-web-mode-hook)
+(add-hook 'markdown-mode-hook 'my-markdown-mode-hook)
+(add-hook 'sh-mode-hook 'my-sh-mode-hook)
 (provide 'i-mode-config)
 ;;; i-mode-config.el ends here

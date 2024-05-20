@@ -30,40 +30,33 @@
 
 ;; install packages
 (setq packages '(
-                 ace-jump-mode
-                 ace-window
-                 ag
                  ample-theme
                  company
-                 company-go
+                 csv
                  ctags
-                 deft
                  elpy
+                 eruby-mode
                  exec-path-from-shell
-                 flx-ido
                  flycheck
-                 gist
                  git-gutter
                  git-link
-                 go-eldoc
-                 go-mode
-                 guide-key
                  helm
+                 htmlize
                  iedit
                  magit
                  markdown-mode
                  markdown-toc
-                 nm
-                 org-bullets
-                 php-mode
+                 nyan-mode
+                 org-bullets-mode
                  popwin
                  projectile
                  ruby-block
                  smartparens
-                 smex
                  w3m
                  web-mode
                  wgrep
+                 which-key
+                 yaml-mode
                  ))
 
 ;; hotfix
@@ -83,10 +76,10 @@
 ;;               (package--mapc #'package--add-to-compatibility-table))))))
 
 
-;; NOTE: after 25.0 this may not be needed.
-(package-initialize t) ; read packages without loading
-(samer-get-packages packages)
-(package-initialize)
+;; ;; NOTE: after 25.0 this may not be needed.
+;; (package-initialize t) ; read packages without loading
+;; (samer-get-packages packages)
+;; (package-initialize)
 
 (provide 'i-package-setup)
 ;;; i-package-setup.el ends here
